@@ -1,0 +1,13 @@
+.music {
+  &__introduction {
+    padding: 0 12px;
+  }
+  &_border-bottom {
+    border-bottom: 10px solid #eee;
+  }
+
+  &__title {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+}
