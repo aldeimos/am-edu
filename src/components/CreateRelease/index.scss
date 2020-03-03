@@ -1,0 +1,23 @@
+.create-release {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__cover {
+    .Avatar__img {
+      margin-bottom: 12px;
+
+      background-color: var(--text_secondary);
+    }
+  }
+  &__load-cover-btn,
+  &__create-track,
+  &__submit-btn {
+    width: calc(100% - 24px);
+
+    .Button__content {
+      padding: 12px 0;
+    }
+  }
+}

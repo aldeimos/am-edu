@@ -1,12 +1,5 @@
-import types from "./action-types";
+import types from './action-types';
 
-
-export const changeActiveStory = (story) => {
-  return {
-    type: types.CHANGE_ACTIVE_STORY,
-    payload: story
-  }
-};
 
 export const setSelectedRelease = (id) => {
   return {
@@ -15,3 +8,16 @@ export const setSelectedRelease = (id) => {
   }
 };
 
+export const deleteRelease = (releaseId) => {
+  return {
+    type: types.DELETE_RELEASE,
+    payload: releaseId
+  }
+};
+
+export const addRelease = (release) => {
+  return {
+    type: types.ADD_RELEASE,
+    payload: release
+  }
+}

@@ -1,15 +1,18 @@
 import React from 'react';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {changeActiveStory, changeMusicActivePanel, updateHistory} from './store/app/actions';
+
+import vkBridge from '@vkontakte/vk-bridge';
 import {ConfigProvider, Epic, Separator, Tabbar, TabbarItem} from '@vkontakte/vkui';
 import Icon24Song from '@vkontakte/icons/dist/24/song';
 import Icon24Poll from '@vkontakte/icons/dist/24/poll';
 import Icon24MoneyCircle from '@vkontakte/icons/dist/24/money_circle';
 import '@vkontakte/vkui/dist/vkui.css';
-import Music from "./containers/Music/Music";
-import Streams from "./containers/Streams/Streams";
-import Wallet from "./containers/Wallet/Wallet";
-import {useDispatch, useSelector} from "react-redux";
-import {changeActiveStory, changeMusicActivePanel, updateHistory} from "./store/app/actions";
-import vkBridge from "@vkontakte/vk-bridge";
+
+import Music from './containers/Music/Music';
+import Streams from './containers/Streams/Streams';
+import Wallet from './containers/Wallet/Wallet';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -34,7 +37,7 @@ const App = () => {
 
 
 	return(
-			<ConfigProvider isWebView={true}>
+			<ConfigProvider isWebView={true} > {/* webviewType='vkapps'. Вот эта штука руинит шапку в Home, хз почему */}
 				<Epic activeStory={activeStory} tabbar={
 					<Tabbar shadow>
 					<TabbarItem onClick={(e) => tabBarItemClickHandler(e)}

@@ -5,6 +5,8 @@ const initialState = {
     {
       id: 1,
       type: 'Album',
+      artist: 'Joji',
+      isObserved: true,
       releaseTitle: 'BALLADS 1',
       coverSrc: 'https://upload.wikimedia.org/wikipedia/ru/thumb/9/94/Ballads_1.png/274px-Ballads_1.png',
       releaseStatus: true,
@@ -16,33 +18,30 @@ const initialState = {
         {
           id: 1,
           name: 'ATTENTION',
-          artist: 'Joji'
         },
         {
           id: 2,
           name: 'SLOW DANCING IN THE DARK',
-          artist: 'Joji'
         },
         {
           id: 3,
           name: 'Meme machine',
-          artist: 'Joji'
         },
         {
           id: 4,
           name: 'Dora, The explorer',
-          artist: 'Joji'
         },
         {
           id: 5,
           name: 'Keke',
-          artist: 'Joji'
         },
       ]
     },
     {
       id: 2,
       type: 'Single',
+      artist: 'Joji',
+      isObserved: false,
       releaseTitle: 'Run',
       coverSrc: 'https://upload.wikimedia.org/wikipedia/ru/thumb/e/eb/Run_%28%D0%BF%D0%B5%D1%81%D0%BD%D1%8F%29.png/274px-Run_%28%D0%BF%D0%B5%D1%81%D0%BD%D1%8F%29.png',
       releaseStatus: true,
@@ -55,6 +54,8 @@ const initialState = {
     {
       id: 3,
       type: 'Single',
+      artist: 'Joji',
+      isObserved: false,
       releaseTitle: 'Sanctuary',
       coverSrc: 'https://upload.wikimedia.org/wikipedia/ru/3/35/Sanctuary_%28%D0%BF%D0%B5%D1%81%D0%BD%D1%8F%29.jpg',
       releaseStatus: true,
@@ -65,28 +66,29 @@ const initialState = {
       tracklist: null
     },
   ],
-  selectedRelease: {}
+  selectedRelease: {},
 };
 
 const releasesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.ADD_REALESE:
+    case types.ADD_RELEASE:
       return {
         ...state,
         releases: [...state.releases, {...action.payload}]
       };
+    case types.DELETE_RELEASE:
+      return {
+        ...state,
+        releases: state.releases.filter(release => release.id !== action.payload)
+      };
     case types.SET_SELECTED_RELEASE:
-      console.log()
           return {
             ...state,
-            selectedRelease: state.releases.filter(release => {
-              if (release.id === action.payload) {
-                return release;
-              }
-            })
+            selectedRelease: state.releases.filter(release => release.id === action.payload)
           };
+
     default: return state;
   }
 };
 
-export default  releasesReducer;
+export default releasesReducer;

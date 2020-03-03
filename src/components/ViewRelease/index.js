@@ -1,4 +1,10 @@
 import React from 'react';
+
+import {useSelector, useDispatch} from 'react-redux';
+import {deleteRelease} from '../../store/releases/actions';
+import {changeMusicActivePanel, updateHistory} from '../../store/app/actions';
+
+import vkBridge from '@vkontakte/vk-bridge';
 import {
   Panel,
   Header,
@@ -7,21 +13,22 @@ import {
   Group,
   PanelHeaderSimple,
   Avatar,
-  Separator
+  Separator,
+  Div, CellButton
 } from "@vkontakte/vkui";
-import {useSelector, useDispatch} from "react-redux";
 import Icon24BrowserBack from '@vkontakte/icons/dist/24/browser_back';
-import TrackCell from "../TrackCell";
-import vkBridge from "@vkontakte/vk-bridge";
-import {changeMusicActivePanel, updateHistory} from "../../store/app/actions";
+import Icon28Delete from '@vkontakte/icons/dist/28/delete';
+
+import TrackCell from '../TrackCell';
+import './index.scss';
 
 const ViewRelease = ({id}) => {
   const stateHistory = useSelector(store => store.app.history);
   const dispatch = useDispatch();
   const selectedRelease = useSelector(store => store.releases.selectedRelease);
-  const {releaseTitle, type, coverSrc, releaseStatus, releaseDate, genre, upc, tracklist, shortlink}  = selectedRelease[0];
+  const {releaseTitle, type, artist, coverSrc, releaseStatus, releaseDate, genre, upc, tracklist, shortlink}  = selectedRelease[0];
+  // и еще я тут чет с деструктуризацией запутался малеха
   // В общем, как я понимаю, что если хоть раз внутри вьюхи заюзад PHS, то уже не дает отрендерить обычный PH
-
   const goBack = () => {
     const history = [...stateHistory];
     history.pop();
@@ -33,15 +40,28 @@ const ViewRelease = ({id}) => {
     dispatch(changeMusicActivePanel(musicActivePanel));
   };
 
+  const removeRelease = () => {
+    dispatch(deleteRelease(selectedRelease[0].id));
+    goBack();
+  };
+
   return (
-      <Panel id={id}>
-        <PanelHeaderSimple left={<Icon24BrowserBack onClick={goBack}/>}>
+      <Panel className={'view-release'} id={id}>
+        <PanelHeaderSimple className={'music_border-bottom'} left={<Icon24BrowserBack onClick={goBack}/>}>
           {releaseTitle}
         </PanelHeaderSimple>
-        <Group style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <Group className={'music_border-bottom'} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <Avatar mode={'image'} size={80} src={coverSrc}/>
           <Header>{releaseTitle}</Header>
         </Group>
+        <Div className={'music_border-bottom'}>
+          <CellButton className={'view-release__delete-release-btn'} mode="danger"
+                      align={'center'}
+                      onClick={removeRelease}>
+            <Icon28Delete/>
+            Удалить
+          </CellButton>
+        </Div>
         <Group header={<Header  mode={'secondary'}>Основная информация</Header>}>
             <List>
               <Cell indicator={releaseStatus ? 'Выпущен' : 'Скоро'}>
@@ -70,8 +90,8 @@ const ViewRelease = ({id}) => {
         <Group header={<Header mode={'secondary'}>Треклист</Header>}>
           <List>
             {!tracklist
-                ? <TrackCell name={releaseTitle} coverSrc={coverSrc} artist={'Joji'}/>
-                : tracklist.map(track => <TrackCell key={track.id} {...track} coverSrc={coverSrc}/>)}
+                ? <TrackCell name={releaseTitle} coverSrc={coverSrc} artist={artist}/>
+                : tracklist.map(track => <TrackCell key={track.id} artist={artist} {...track} coverSrc={coverSrc}/>)}
           </List>
         </Group>
         <Group header={<Header mode={'secondary'}>Инструменты Alphamusic</Header>}>

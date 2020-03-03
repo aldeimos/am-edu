@@ -1,5 +1,6 @@
-import React from "react";
-import {Avatar, Cell} from "@vkontakte/vkui";
+import React from 'react';
+
+import {Avatar, Cell} from '@vkontakte/vkui';
 
 
 

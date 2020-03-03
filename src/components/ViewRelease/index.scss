@@ -1,4 +1,13 @@
-import React from 'react';
+.view-release {
+  &__delete-release-btn {
+    .Icon {
+      margin-right: 5px;
+    }
+    .CellButton__content {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
 
-const ViewRelease = () => {
-                        }
+
